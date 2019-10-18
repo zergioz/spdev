@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>SPDEV</title>
+    <script src="jquery-2.2.4.min.js"></script>
+    <script src="fakeSharePointPage.js"></script>
+    <script src="soceurHelpers.js"></script>
+    <script>
+      function getLists(formDigest) {
+        //use if you need to make POST request
+        console.log(formDigest);
+
+        return $.ajax({
+          url: _spPageContextInfo.webAbsoluteUrl + '/_api/web/lists',
+          type: 'GET',
+          headers: { accept: 'application/json;odata=verbose' }
+        }).then(function(data) {
+          //massage data before passing to next method in the chain
+          console.log(data.d.results);
+          return data.d.results;
+        });
+      }
+
+      function printLists(data) {
+        var output = $('#output');
+        output.html('');
+        data.forEach(function(item) {
+          output.append('<li>' + item.Title + '</li>');
+        });
+      }
+
+      function onButtonClick() {
+        window.soceurHelpers
+          .getFormDigest()
+          .then(getLists)
+          .then(printLists);
+      }
+    </script>
+  </head>
+  <body>
+    <h3>https://chanm003.sharepoint.com/OAADEV/_layouts/15/viewlsts.aspx</h3>
+    <button type="button" onclick="onButtonClick()">
+      Fetch all Lists from above SharePoint Site
+    </button>
+    <ul id="output"></ul>
+  </body>
+</html>

@@ -23,7 +23,13 @@ var elementArray =
         "SSD-check":['#SSD-paragraph'], 
         "AFSEA-check":['#AFSEA-paragraph']
     };
-
+$pnp.setup({
+    sp: {
+        headers: {
+            Accept: 'application/json;odata=verbose;'
+        }
+    }
+});
 
 /*Live Update*/
 $("input, textarea").keyup(function(){
@@ -35,62 +41,38 @@ $("input, textarea").keyup(function(){
 $('#initiateOrder').click(function(){
     console.log('initiateOrder');
     /* Create Data Set */
-    var dataSet = ["Title","order-initiated"];
+    var dataSet = {Title:"order-initiated"};
     /* submit item to SPlist*/
     initiateOrder(dataSet);
 });
 
+/* When click Initiate Order */
 function initiateOrder(dataSet){
-    jQuery.noConflict();
-    $().SPServices({
-        webURL: _spPageContextInfo.webAbsoluteUrl,
-        operation: "UpdateListItems",
-        async: false,
-        batchCmd: 'New',
-        listName:"nightOrderData",
-        valuepairs:[dataSet],
-        completefunc: function (xData, Status) {
-            $(xData.responseXML).SPFilterNode("z:row").each(function(){
-                var newId = $(this).attr("ows_ID");
-                orderId = newId;
-                console.log(newId);
-            });
-        }
-    });
+    //INSIDE button click
+    var web = new $pnp.Web(_spPageContextInfo.webAbsoluteUrl);
+    // Using POST method to create an item as example
+    web.getList(`${_spPageContextInfo.webServerRelativeUrl}/Lists/nightOrderData`)
+        .items.add(dataSet)
+        .then(function (response) {
+            orderId = response.data.Id;
+            console.log(orderId);
+        })
 }
 
-/* When click Initiate Order */
+/* Start filling out form */
 $('#generalOrder').click(function(){
     console.log('generalOrder');
     orderData = new buildOrder();
     /* Create Data Set */
     var dataSet =  
-        [
-            ["generalCopyNumber",orderData.generalCopyNumber],
-            ["generalEffectiveDate",orderData.generalEffectiveDate],
-            ["generalIssuingHeadquarter",orderData.generalIssuingHeadquarter],
-            ["generalOperationPlan",orderData.generalOperationPlan],
-            ["generalPlaceIssue",orderData.generalPlaceIssue],
-            ["generalReferenceField",orderData.generalReferenceField]
-        ];
-    /* submit item to SPlist*/
-    putOrder(dataSet);
-});
-
-/* Start Steps */
-$('#generalOrder').click(function(){
-    console.log('generalOrder');
-    orderData = new buildOrder();
-    /* Create Data Set */
-    var dataSet =  
-        [
-            ["generalCopyNumber",orderData.generalCopyNumber],
-            ["generalEffectiveDate",orderData.generalEffectiveDate],
-            ["generalIssuingHeadquarter",orderData.generalIssuingHeadquarter],
-            ["generalOperationPlan",orderData.generalOperationPlan],
-            ["generalPlaceIssue",orderData.generalPlaceIssue],
-            ["generalReferenceField",orderData.generalReferenceField]
-        ];
+        {
+            generalCopyNumber: orderData.generalCopyNumber,
+            generalEffectiveDate: orderData.generalEffectiveDate,
+            generalIssuingHeadquarter: orderData.generalIssuingHeadquarter,
+            generalOperationPlan: orderData.generalOperationPlan,
+            generalPlaceIssue: orderData.generalPlaceIssue,
+            generalReferenceField: orderData.generalReferenceField
+        };
     /* submit item to SPlist*/
     putOrder(dataSet);
 });
@@ -100,12 +82,12 @@ $('#situationOrder').click(function(){
     orderData = new buildOrder();
     /* Create Data Set */
     var dataSet =  
-        [
-            ["situationGeneral",orderData.situationGeneral],
-            ["situationAreaOfConcern",orderData.situationAreaOfConcern],
-            ["situationFriendForce",orderData.situationFriendForce],
-            ["situationEnemyForce",orderData.situationEnemyForce]
-        ];
+        {
+            situationGeneral: orderData.situationGeneral,
+            situationAreaOfConcern: orderData.situationAreaOfConcern,
+            situationFriendForce: orderData.situationFriendForce,
+            situationEnemyForce: orderData.situationEnemyForce
+        };
     /* submit item to SPlist*/
     putOrder(dataSet);
 });
@@ -115,9 +97,9 @@ $('#missionOrder').click(function(){
     orderData = new buildOrder();
     /* Create Data Set */
     var dataSet =  
-        [
-            ["missionField",orderData.missionField]
-        ];
+        {
+            missionField: orderData.missionField
+        };
     /* submit item to SPlist*/
     putOrder(dataSet);
 });
@@ -127,40 +109,39 @@ $('#executionOrder').click(function(){
     orderData = new buildOrder();
     /* Create Data Set */
     var dataSet =  
-        [
-
-            ["conopCommanderIntent",orderData.conopCommanderIntent],
-            ["conopsPurposeState",orderData.conopsPurposeState],
-            ["conopObjective",orderData.conopObjective],
-            ["conopEffect",orderData.conopEffect],
-            ["conopGeneral",orderData.conopGeneral],
+        {
+            conopCommanderIntent: orderData.conopCommanderIntent,
+            conopsPurposeState: orderData.conopsPurposeState,
+            conopObjective: orderData.conopObjective,
+            conopEffect: orderData.conopEffect,
+            conopGeneral: orderData.conopGeneral,
             /* Tasks: Org */
-            ["taskOrganizationAll",orderData.taskOrganizationAll],
-            ["taskOrganizationSFG10",orderData.taskOrganizationSFG10],
-            ["taskOrganizationNSWU2",orderData.taskOrganizationNSWU2],
-            ["taskOrganizationSOW352",orderData.taskOrganizationSOW352],
-            ["taskOrganizationJSOACE",orderData.taskOrganizationJSOACE],
-            ["taskOrganizationTASKFORCE10",orderData.taskOrganizationTASKFORCE10],
+            taskOrganizationAll: orderData.taskOrganizationAll,
+            taskOrganizationSFG10: orderData.taskOrganizationSFG10,
+            taskOrganizationNSWU2: orderData.taskOrganizationNSWU2,
+            taskOrganizationSOW352: orderData.taskOrganizationSOW352,
+            taskOrganizationJSOACE: orderData.taskOrganizationJSOACE,
+            taskOrganizationTASKFORCE10: orderData.taskOrganizationTASKFORCE10,
             /* Tasks: Staff */
-            ["taskStaffHq",orderData.taskStaffHq],
-            ["taskStaffCg",orderData.taskStaffCg],
-            ["taskStaffJ1",orderData.taskStaffJ1],
-            ["taskStaffJ2",orderData.taskStaffJ2],
-            ["taskStaffJ3",orderData.taskStaffJ3],
-            ["taskStaffJ4",orderData.taskStaffJ4],
-            ["taskStaffJ5",orderData.taskStaffJ5],
-            ["taskStaffJ6",orderData.taskStaffJ6],
-            ["taskStaffJ8",orderData.taskStaffJ8],
-            ["taskStaffJx",orderData.taskStaffJx],
-            ["taskStaffMed",orderData.taskStaffMed],
-            ["taskStaffPao",orderData.taskStaffPao],
-            ["taskStaffSja",orderData.taskStaffSja],
-            ["taskStaffOther",orderData.taskStaffOther],
-            ["taskStaffSsd",orderData.taskStaffSsd],
-            ["taskStaffAfSea",orderData.taskStaffAfSea],
+            taskStaffHq: orderData.taskStaffHq,
+            taskStaffCg: orderData.taskStaffCg,
+            taskStaffJ1: orderData.taskStaffJ1,
+            taskStaffJ2: orderData.taskStaffJ2,
+            taskStaffJ3: orderData.taskStaffJ3,
+            taskStaffJ4: orderData.taskStaffJ4,
+            taskStaffJ5: orderData.taskStaffJ5,
+            taskStaffJ6: orderData.taskStaffJ6,
+            taskStaffJ8: orderData.taskStaffJ8,
+            taskStaffJx: orderData.taskStaffJx,
+            taskStaffMed: orderData.taskStaffMed,
+            taskStaffPao: orderData.taskStaffPao,
+            taskStaffSja: orderData.taskStaffSja,
+            taskStaffOther: orderData.taskStaffOther,
+            taskStaffSsd: orderData.taskStaffSsd,
+            taskStaffAfSea: orderData.taskStaffAfSea,
             /* Task: Coordinating */
-            ["taskCoordinatingInstructions",orderData.taskCoordinatingInstructions]
-        ];
+            taskCoordinatingInstructions: orderData.taskCoordinatingInstructions
+        };
     /* submit item to SPlist*/
     putOrder(dataSet);
 });
@@ -170,11 +151,24 @@ $('#adminLogOrder').click(function(){
     orderData = new buildOrder();
     /* Create Data Set */
     var dataSet =  
-        [
-            ["adminLogConceptSustainment",orderData.adminLogConceptSustainment],
-            ["adminLogLogistic",orderData.adminLogConceptSustainment],
-            ["adminLogPersonnel",orderData.adminLogConceptSustainment]
-        ];
+        {
+            adminLogConceptSustainment: orderData.adminLogConceptSustainment,
+            adminLogLogistic: orderData.adminLogConceptSustainment,
+            adminLogPersonnel: orderData.adminLogConceptSustainment
+        };
+    /* submit item to SPlist*/
+    putOrder(dataSet);
+});
+
+$('#commandControl').click(function(){
+    console.log('commandControl');
+    orderData = new buildOrder();
+    /* Create Data Set */
+    var dataSet = 
+        { 
+            commandControl: orderData.commandControl,
+            commandCommunications: orderData.commandCommunications
+        };
     /* submit item to SPlist*/
     putOrder(dataSet);
 });
@@ -183,21 +177,15 @@ $('#adminLogOrder').click(function(){
 function putOrder(dataSet){
     /* DEBUG */
     console.log("function: putOrder for Id: ", orderId);
-    console.log(dataSet);
-    $().SPServices({
-        webURL: _spPageContextInfo.webAbsoluteUrl,
-        operation: "UpdateListItems",
-        async: false,
-        batchCmd: "Update",
-        listName: "nightOrderData",
-        ID: orderId,
-        valuepairs:dataSet,
-        completefunc: function(xData, Status){
-            console.log('putOrder completed',Status);
-        }
-    });
+    //INSIDE button click
+    var web = new $pnp.Web(_spPageContextInfo.webAbsoluteUrl);
+    // Using POST method to create an item as example
+    web.getList(`${_spPageContextInfo.webServerRelativeUrl}/Lists/nightOrderData`)
+        .items.getById(orderId).update(dataSet)
+        .then(function (response) {
+            console.log("response ",response.data);
+    })
 }
-
 
 /* Once everyting is loaded: fix bug to display label on top and remove text overlaping */
 $(document).ready(function() {
@@ -220,10 +208,12 @@ $("[id$=check]").change(function(){
     var  doc = [elementArray[this.id][0]]
     this.checked ? $(doc[0]).slideDown('slow') : $(doc[0]).slideUp('slow');
 });
+
 /* Enable Show All options */
 $('#ALL-check, #JALL-check').change(function(){
         this.checked ? showAllOrganization(): hideAllOrganizations();
 });
+
 /* Hide All */
 function hideAllOrganizations(){
     $.each(elementArray, function (index, value) {
@@ -231,6 +221,7 @@ function hideAllOrganizations(){
         $("#"+index).removeAttr('checked');
     }); 
 }
+
 /* Show All */
 function showAllOrganization(){
     $.each(elementArray, function (index, value) {
@@ -239,7 +230,7 @@ function showAllOrganization(){
     });    
 }
 
-/* update content with variables */
+/* Update content with variables */
 function buildOrder(){ 
     /* General pane */
     this.generalCopyNumber = $("#copyNumber").val();
@@ -294,6 +285,8 @@ function buildOrder(){
     /* Command and Control */
     this.commandControl = $("#commandControl").val();
     this.commandCommunications = $("#commandCommunications").val();
+    /* Release Status */
+    this.releaseOrder = $("#release").val();
 
     return this;
 };
@@ -320,9 +313,7 @@ function bar_progress(progress_line_object, direction) {
 
 $(document).ready(function() {
     
-    /*
-        Fullscreen background
-    */
+    // Fullscreen background 
     $.backstretch("assets/img/backgrounds/1.jpg");
     
     $('#top-navbar-1').on('shown.bs.collapse', function(){
@@ -332,16 +323,14 @@ $(document).ready(function() {
         $.backstretch("resize");
     });
     
-    /*
-        Form
-    */
+    // Form 
     $('.f1 fieldset:first').fadeIn('slow');
     
     $('.f1 input[type="text"], .f1 input[type="password"], .f1 textarea').on('focus', function() {
         $(this).removeClass('input-error');
     });
     
-    // next step
+    // Next step
     $('.f1 .btn-next').on('click', function() {
         var parent_fieldset = $(this).parents('fieldset');
         var next_step = true;
@@ -360,7 +349,6 @@ $(document).ready(function() {
             }
         });
         // fields validation
-        
         if( next_step ) {
             parent_fieldset.fadeOut(400, function() {
                 // change icons
@@ -373,7 +361,6 @@ $(document).ready(function() {
                 scroll_to_class( $('.f1'), 20 );
             });
         }
-        
     });
     
     // previous step
@@ -393,20 +380,15 @@ $(document).ready(function() {
             scroll_to_class( $('.f1'), 20 );
         });
     });
-    
-    
+
+    // submit
     $('.f1 .btn-submit').on('click', function(e) {    // submit
-        console.log('HERE: commandControl');
+        console.log('release commandControl');
         orderData = new buildOrder();
-        /* Create Data Set */
-        var dataSet =  
-            [
-                ["commandControl",orderData.commandControl],["commandCommunications",orderData.commandCommunications]
-            ];
-        /* submit item to SPlist*/
+        dataSet = { releaseOrder: orderData.releaseOrder };
+        
+        // Submit item to SPlist
         putOrder(dataSet);
-         console.log(dataSet);  
+        console.log(dataSet);
     });
-
-
 });

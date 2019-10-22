@@ -24,7 +24,7 @@
         <!-- JQuery -->
         <script type="text/javascript" src="assets/js/jquery.min.js"></script>
         <script type="text/javascript" src="assets/js/jquery.SPServices.js"></script>
-        
+        <script type="text/javascript" src="assets/js/pnp.min.js"></script>
         <!-- Bootstrap tooltips -->
         <script type="text/javascript" src="assets/js/popper.min.js"></script>
         <!-- MDB core JavaScript -->
@@ -88,7 +88,7 @@
 
                                 <div class="f1-step active">
                                     <div class="f1-step-icon">
-                                        <i class="fa fa-user"></i>
+                                        <i class="fa fa-flag-checkered"></i>
                                     </div>
                                     <p>Initiate Order</p>
                                 </div>
@@ -128,6 +128,12 @@
                                         <i class="fa fa-globe"></i>
                                     </div>
                                     <p>C2</p>
+                                </div>
+                                <div class="f1-step">
+                                    <div class="f1-step-icon">
+                                        <i class="fa fa-paper-plane"></i>
+                                    </div>
+                                    <p>Release</p>
                                 </div>
                             </div>
 
@@ -459,8 +465,14 @@
                                 </div>
                                 <div class="f1-buttons">
                                     <button type="button" class="btn btn-previous">Previous</button>
-                                    <button type="button" class="btn btn-submit" id="commandControl">SAVE</button>
-                                    <button type="button" class="btn btn-block" id="release">RELEASE</button>
+                                    <button type="button" class="btn btn-next" id="commandControl">Next</button>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-group md-form form-lg">
+                                    <h4>If the Order was completed. Click below to create the Order <i class="fa fa-file"></i> file to release.</h4>
+                                    <button type="button" class="btn btn-block btn-submit" id="release" value="1">Click [HERE] to Release</button>
                                 </div>
                             </fieldset>
                         

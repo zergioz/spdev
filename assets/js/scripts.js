@@ -51,15 +51,16 @@ function initiateOrder(dataSet){
     //INSIDE button click
     var web = new $pnp.Web(_spPageContextInfo.webAbsoluteUrl);
     // Using POST method to create an item as example
-    /*
-    web.getList(`${_spPageContextInfo.webServerRelativeUrl}/Shared Documents`)
-        .items.add(dataSet)
-        .then(function (response) {
-            orderId = response.data.Id;
-            console.log(orderId);
-        })
-    */
-    
+    web.getList(`${_spPageContextInfo.webServerRelativeUrl}/Lists/nightOrderData`)
+    .items.add(dataSet)
+    .then(function (response) {
+        orderId = response.data.Id;
+        console.log(orderId);
+    })
+}
+
+/* When order is release create a file in the product library */
+ function releaseOrder(dataSet){  
 
     var dateObj = new Date();
     var month = dateObj.getUTCMonth() + 1; //months from 1-12
@@ -67,9 +68,7 @@ function initiateOrder(dataSet){
     var year = dateObj.getUTCFullYear();
 
     newdate = year+"-"+month+"-"+day;
-
     console.log(newdate);
-
     var templateUrl = '/SERROD/Shared Documents/Document.docx';
     var targetUrl = '/SERROD/nightOrder/'+newdate+'.docx' ;   
 
@@ -87,8 +86,6 @@ function initiateOrder(dataSet){
     })
     .then(console.log);
 }
-
-
 
 
 /* Start filling out form */

@@ -77,7 +77,7 @@ function initiateOrder(dataSet){
     .then(templateData => {
         return web.getFileByServerRelativeUrl(targetUrl).getItem();
     })
-    .then(item => {
+    .then(item => { 
         return item.validateUpdateListItem(
             [{ 
                 FieldName:  'copyNumber', 
@@ -86,7 +86,6 @@ function initiateOrder(dataSet){
     })
     .then(console.log);
 }
-
 
 /* Start filling out form */
 $('#generalOrder').click(function(){

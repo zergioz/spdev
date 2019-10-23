@@ -51,13 +51,45 @@ function initiateOrder(dataSet){
     //INSIDE button click
     var web = new $pnp.Web(_spPageContextInfo.webAbsoluteUrl);
     // Using POST method to create an item as example
-    web.getList(`${_spPageContextInfo.webServerRelativeUrl}/Lists/nightOrderData`)
+    /*
+    web.getList(`${_spPageContextInfo.webServerRelativeUrl}/Shared Documents`)
         .items.add(dataSet)
         .then(function (response) {
             orderId = response.data.Id;
             console.log(orderId);
         })
+    */
+    
+
+    var dateObj = new Date();
+    var month = dateObj.getUTCMonth() + 1; //months from 1-12
+    var day = dateObj.getUTCDate();
+    var year = dateObj.getUTCFullYear();
+
+    newdate = year+"-"+month+"-"+day;
+
+    console.log(newdate);
+
+    var templateUrl = '/SERROD/Shared Documents/Document.docx';
+    var targetUrl = '/SERROD/nightOrder/'+newdate+'.docx' ;   
+
+    web.getFileByServerRelativeUrl(templateUrl)
+    .copyTo(targetUrl)
+    .then(templateData => {
+        return web.getFileByServerRelativeUrl(targetUrl).getItem();
+    })
+    .then(item => {
+        return item.validateUpdateListItem(
+            [{ 
+                FieldName:  'copyNumber', 
+                FieldValue: 'Some title' 
+            }], true);
+    })
+    .then(console.log);
 }
+
+
+
 
 /* Start filling out form */
 $('#generalOrder').click(function(){

@@ -1,5 +1,6 @@
 var orderId;
 var orderData;
+var orderList = "nightOrderDataShort";
 var elementArray = 
     {
         "ALL-check" : [""],
@@ -51,7 +52,7 @@ function initiateOrder(dataSet){
     //INSIDE button click
     var web = new $pnp.Web(_spPageContextInfo.webAbsoluteUrl);
     // Using POST method to create an item as example
-    web.getList(`${_spPageContextInfo.webServerRelativeUrl}/Lists/nightOrderData`)
+    web.getList(`${_spPageContextInfo.webServerRelativeUrl}/Lists/${orderList}`)
     .items.add(dataSet)
     .then(function (response) {
         orderId = response.data.Id;
@@ -69,20 +70,26 @@ function initiateOrder(dataSet){
 
     newdate = year+"-"+month+"-"+day;
     console.log(newdate);
+
+     //INSIDE button click
+    var web = new $pnp.Web(_spPageContextInfo.webAbsoluteUrl);
+    // Using POST method to create an item as example
+    web.getList(`${_spPageContextInfo.webServerRelativeUrl}/nightOrder`)
     var templateUrl = '/SERROD/Shared Documents/Document.docx';
     var targetUrl = '/SERROD/nightOrder/'+newdate+'.docx' ;   
 
     web.getFileByServerRelativeUrl(templateUrl)
     .copyTo(targetUrl)
     .then(templateData => {
-        return web.getFileByServerRelativeUrl(targetUrl).getItem();
+        return web.getFileByServerRelativeUrl(targetUrl)
+        .getItem();
     })
     .then(item => { 
-        return item.validateUpdateListItem(
-            [{ 
+        item.update(
+            { 
                 FieldName:  'copyNumber', 
-                FieldValue: 'Some title' 
-            }], true);
+                FieldValue: 'My new Number' 
+            }, true);
     })
     .then(console.log);
 }
@@ -94,6 +101,8 @@ $('#generalOrder').click(function(){
     /* Create Data Set */
     var dataSet =  
         {
+            generalSubject: orderData.generalSubject,
+            generalTitle: orderData.generalTitle,
             generalCopyNumber: orderData.generalCopyNumber,
             generalEffectiveDate: orderData.generalEffectiveDate,
             generalIssuingHeadquarter: orderData.generalIssuingHeadquarter,
@@ -104,6 +113,84 @@ $('#generalOrder').click(function(){
     /* submit item to SPlist*/
     putOrder(dataSet);
 });
+
+$('#generalOrder-short').click(function(){
+    console.log('generalOrder-short');
+    orderData = new buildOrder();
+    /* Create Data Set */
+    var dataSet =  
+        {
+            generalSubject: orderData.generalSubject,
+            generalTitle: orderData.generalTitle,
+            generalReferenceField: orderData.generalReferenceField
+        };
+    /* submit item to SPlist*/
+    putOrder(dataSet);
+});
+
+$('#orderTask-short').click(function(){
+    console.log('generalOrder-short');
+    orderData = new buildOrder();
+    /* Create Data Set */
+    /* Create Data Set */
+    var dataSet =  
+        {
+            /* Tasks: Org */
+            taskOrganizationAll: orderData.taskOrganizationAll,
+            taskOrganizationSFG10: orderData.taskOrganizationSFG10,
+            taskOrganizationNSWU2: orderData.taskOrganizationNSWU2,
+            taskOrganizationSOW352: orderData.taskOrganizationSOW352,
+            taskOrganizationJSOACE: orderData.taskOrganizationJSOACE,
+            taskOrganizationTASKFORCE10: orderData.taskOrganizationTASKFORCE10,
+            /* Tasks: Staff */
+            taskStaffHq: orderData.taskStaffHq,
+            taskStaffCg: orderData.taskStaffCg,
+            taskStaffJ1: orderData.taskStaffJ1,
+            taskStaffJ2: orderData.taskStaffJ2,
+            taskStaffJ3: orderData.taskStaffJ3,
+            taskStaffJ4: orderData.taskStaffJ4,
+            taskStaffJ5: orderData.taskStaffJ5,
+            taskStaffJ6: orderData.taskStaffJ6,
+            taskStaffJ8: orderData.taskStaffJ8,
+            taskStaffJx: orderData.taskStaffJx,
+            taskStaffMed: orderData.taskStaffMed,
+            taskStaffPao: orderData.taskStaffPao,
+            taskStaffSja: orderData.taskStaffSja,
+            taskStaffOther: orderData.taskStaffOther,
+            taskStaffSsd: orderData.taskStaffSsd,
+            taskStaffAfSea: orderData.taskStaffAfSea
+        };
+    /* submit item to SPlist*/
+    putOrder(dataSet);
+});
+
+$('#battleRythmOrder').click(function(){
+    console.log('battleRythm');
+    orderData = new buildOrder();
+    /* Create Data Set */
+    var dataSet =  
+        {
+            battleRythm: orderData.battleRythm,
+        };
+    /* submit item to SPlist*/
+    putOrder(dataSet);
+});
+
+$('#situationOrder').click(function(){
+    console.log('situationOrder');
+    orderData = new buildOrder();
+    /* Create Data Set */
+    var dataSet =  
+        {
+            situationGeneral: orderData.situationGeneral,
+            situationAreaOfConcern: orderData.situationAreaOfConcern,
+            situationFriendForce: orderData.situationFriendForce,
+            situationEnemyForce: orderData.situationEnemyForce
+        };
+    /* submit item to SPlist*/
+    putOrder(dataSet);
+});
+
 
 $('#situationOrder').click(function(){
     console.log('situationOrder');
@@ -208,7 +295,7 @@ function putOrder(dataSet){
     //INSIDE button click
     var web = new $pnp.Web(_spPageContextInfo.webAbsoluteUrl);
     // Using POST method to create an item as example
-    web.getList(`${_spPageContextInfo.webServerRelativeUrl}/Lists/nightOrderData`)
+    web.getList(`${_spPageContextInfo.webServerRelativeUrl}/Lists/${orderList}`)
         .items.getById(orderId).update(dataSet)
         .then(function (response) {
             console.log("response ",response.data);
@@ -261,6 +348,8 @@ function showAllOrganization(){
 /* Update content with variables */
 function buildOrder(){ 
     /* General pane */
+    this.generalSubject = $("#generalSubject").val();
+    this.generalTitle = $("#generalTitle").val();
     this.generalCopyNumber = $("#copyNumber").val();
     this.generalIssuingHeadquarter = $("#issuingHeadquarter").val();
     this.generalPlaceIssue = $("#placeIssue").val();
@@ -304,6 +393,8 @@ function buildOrder(){
     this.taskStaffOther = $("#SPECIALSTAFF-OTHER").val();
     this.taskStaffSsd = $("#SSD").val();
     this.taskStaffAfSea = $("#AFSEA").val();
+    /* Battle Rythm */
+    this.battleRythm = $("#battleRythm").val();
     /* Task: Coordinating */
     this.taskCoordinatingInstructions = $("#coordinatingInstructions").val();
     /* Admin and Logistics */
@@ -413,10 +504,6 @@ $(document).ready(function() {
     $('.f1 .btn-submit').on('click', function(e) {    // submit
         console.log('release commandControl');
         orderData = new buildOrder();
-        dataSet = { releaseOrder: orderData.releaseOrder };
-        
-        // Submit item to SPlist
-        putOrder(dataSet);
-        console.log(dataSet);
+        releaseOrder();
     });
 });

@@ -24,6 +24,8 @@ var elementArray =
         "SSD-check":['#SSD-paragraph'], 
         "AFSEA-check":['#AFSEA-paragraph']
     };
+
+/* needed for pnp library */    
 $pnp.setup({
     sp: {
         headers: {
@@ -31,6 +33,17 @@ $pnp.setup({
         }
     }
 });
+
+/* Create name with date for oder */
+var orderName = function(){
+    var dateObj = new Date();
+    var month = dateObj.getUTCMonth() + 1; //months from 1-12
+    var day = dateObj.getUTCDate();
+    var year = dateObj.getUTCFullYear();
+
+    orderName = year+"-"+month+"-"+day;
+    return orderName;
+}
 
 /*Live Update*/
 $("input, textarea").keyup(function(){
@@ -42,7 +55,7 @@ $("input, textarea").keyup(function(){
 $('#initiateOrder').click(function(){
     console.log('initiateOrder');
     /* Create Data Set */
-    var dataSet = {Title:"order-initiated"};
+    var dataSet = {Title: orderName()};
     /* submit item to SPlist*/
     initiateOrder(dataSet);
 });
@@ -60,23 +73,115 @@ function initiateOrder(dataSet){
     })
 }
 
+/* Populate order Ids */
+function getOrder(){
+     //INSIDE button click
+    var web = new $pnp.Web(_spPageContextInfo.webAbsoluteUrl);
+    // Using POST method to create an item as example
+    web.getList(`${_spPageContextInfo.webServerRelativeUrl}/Lists/${orderList}`)
+    .items.select(  "ID", "Title", "generalSubject", "generalTitle")
+    .filter("releaseOrder eq 0")
+    .orderBy("Modified", true)
+    .get()
+    .then(function (item){
+        $.each(item, function( index, value ) {
+            addOrderHTML(value.ID,value.Title,value.generalSubject,value.generalTitle);
+        });
+    });
+}
+
+function getOrderDetail(orderId){
+     //INSIDE button click
+    var web = new $pnp.Web(_spPageContextInfo.webAbsoluteUrl);
+    // Using POST method to create an item as example
+    web.getList(`${_spPageContextInfo.webServerRelativeUrl}/Lists/${orderList}`)
+    .items.select(  "ID",
+                    "Title",
+                    "generalSubject",
+                    "generalTitle",
+                    "generalReferenceField",   
+                    "taskStaffCg",         
+                    "taskOrganizationJSOACE",      
+                    "taskStaffJ1",         
+                    "taskOrganizationSFG10",       
+                    "taskOrganizationSOW352",      
+                    "taskOrganizationTASKFORCE10",         
+                    "taskStaffJ5",         
+                    "taskStaffJ6",         
+                    "taskStaffJ8",         
+                    "taskStaffJx",         
+                    "taskStaffMed",        
+                    "taskStaffOther",      
+                    "taskStaffPao",        
+                    "taskStaffSja",        
+                    "taskStaffSsd",        
+                    "releaseOrder",    
+                    "taskStaffJ4",         
+                    "taskOrganizationAll",         
+                    "taskOrganizationNSWU2",       
+                    "taskStaffHq", 
+                    "taskStaffJ2",         
+                    "taskStaffJ3",         
+                    "taskStaffAfSea",      
+                    "battleRythm",        
+                    "taskCoordinatingInstructions")
+    .filter("ID eq "+orderId)
+    .get()
+    .then(function (item){
+        $("#generalSubject").val(item[0].generalSubject);
+        $("#generalTitle").val(item[0].generalTitle); 
+        $("#referenceField").val(item[0].generalReferenceField);
+        $("taskOrganizationAll").val(item[0].taskOrganizationAll);          
+        $("taskOrganizationJSOACE").val(item[0].taskOrganizationJSOACE);     
+        $("taskOrganizationNSWU2").val(item[0].taskOrganizationNSWU2);     
+        $("taskOrganizationSFG10").val(item[0].taskOrganizationSFG10);     
+        $("taskOrganizationSOW352").val(item[0].taskOrganizationSOW352);     
+        $("taskOrganizationTASKFORCE10").val(item[0].taskOrganizationTASKFORCE10);
+        $("taskStaffCg").val(item[0].taskStaffCg);         
+        $("taskStaffHq").val(item[0].taskStaffHq);  
+        $("taskStaffJ1").val(item[0].taskStaffJ1);          
+        $("taskStaffJ2").val(item[0].taskStaffJ2);          
+        $("taskStaffJ3").val(item[0].taskStaffJ3);
+        $("taskStaffJ4").val(item[0].taskStaffJ4);          
+        $("taskStaffJ5").val(item[0].taskStaffJ5);        
+        $("taskStaffJ6").val(item[0].taskStaffJ6);        
+        $("taskStaffJ8").val(item[0].taskStaffJ8);         
+        $("taskStaffJx").val(item[0].taskStaffJx);          
+        $("taskStaffMed").val(item[0].taskStaffMed);         
+        $("taskStaffOther").val(item[0].taskStaffOther);       
+        $("taskStaffPao").val(item[0].taskStaffPao);         
+        $("taskStaffSja").val(item[0].taskStaffSja);         
+        $("taskStaffSsd").val(item[0].taskStaffSsd);                  
+        $("taskStaffAfSea").val(item[0].taskStaffAfSea);       
+        $("battleRythm").val(item[0].battleRythm);         
+        $("taskCoordinatingInstructions").val(item[0].taskCoordinatingInstructions); 
+    });
+}
+
+function addOrderHTML(orderId,orderDate,orderTitle,orderSubject){
+    var row = " <tr>\
+                    <th scope='row'>"+orderDate+"</a></th>\
+                    <td>"+orderTitle+"</a></td>\
+                    <td>"+orderSubject+"</a></td>\
+                    <th>\
+                        <div class='form-group md-form form-lg'>\
+                            <div class='f1-buttons'>\
+                                <button type='button' class='btn btn-next' id='reviewButton' value='"+orderId+"'>Review</button>\
+                            </div>\
+                        </div>\
+                    </th>\
+                </tr>";   
+    $("#orderlist").append(row);
+}
+
 /* When order is release create a file in the product library */
  function releaseOrder(dataSet){  
-
-    var dateObj = new Date();
-    var month = dateObj.getUTCMonth() + 1; //months from 1-12
-    var day = dateObj.getUTCDate();
-    var year = dateObj.getUTCFullYear();
-
-    newdate = year+"-"+month+"-"+day;
-    console.log(newdate);
-
      //INSIDE button click
     var web = new $pnp.Web(_spPageContextInfo.webAbsoluteUrl);
     // Using POST method to create an item as example
     web.getList(`${_spPageContextInfo.webServerRelativeUrl}/nightOrder`)
     var templateUrl = '/SERROD/Shared Documents/Document.docx';
-    var targetUrl = '/SERROD/nightOrder/'+newdate+'.docx' ;   
+    var targetUrl = '/SERROD/nightOrder/'+orderName+'.docx' ;   
 
     web.getFileByServerRelativeUrl(templateUrl)
     .copyTo(targetUrl)
@@ -302,6 +407,8 @@ function putOrder(dataSet){
     })
 }
 
+
+
 /* Once everyting is loaded: fix bug to display label on top and remove text overlaping */
 $(document).ready(function() {
     
@@ -430,8 +537,37 @@ function bar_progress(progress_line_object, direction) {
     progress_line_object.attr('style', 'width: ' + new_value + '%;').data('now-value', new_value);
 }
 
-$(document).ready(function() {
+// review step
+$('body').on('click', '#reviewButton', function() {
+    console.log(this.value);
+    orderId = this.value;
+    // get all order details and laod to DOM
+    getOrderDetail(orderId);
     
+    var parent_fieldset = $(this).parents('fieldset');
+    var next_step = true;
+    // navigation steps / progress steps
+    var current_active_step = $(this).parents('.f1').find('.f1-step.active');
+    var progress_line = $(this).parents('.f1').find('.f1-progress-line');
+    
+    // fields validation
+    if( next_step ) {
+        parent_fieldset.fadeOut(400, function() {
+            // change icons
+            current_active_step.removeClass('active').addClass('activated').next().addClass('active');
+            // progress bar
+            bar_progress(progress_line, 'right');
+            // show next step
+            $(this).next().fadeIn();
+            // scroll window to beginning of the form
+            scroll_to_class( $('.f1'), 20 );
+        });
+    }
+});
+
+
+$(document).ready(function() {
+
     // Fullscreen background 
     $.backstretch("assets/img/backgrounds/1.jpg");
     
@@ -481,7 +617,42 @@ $(document).ready(function() {
             });
         }
     });
-    
+
+    // Next step
+    $('.f1 .btn-next').on('click', function() {
+        var parent_fieldset = $(this).parents('fieldset');
+        var next_step = true;
+        // navigation steps / progress steps
+        var current_active_step = $(this).parents('.f1').find('.f1-step.active');
+        var progress_line = $(this).parents('.f1').find('.f1-progress-line');
+        
+        // fields validation
+        parent_fieldset.find('input[type="text"], input[type="password"], textarea').each(function() {
+            if( $(this).val() == "" ) {
+                $(this).addClass('input-error');
+                next_step = false;
+            }
+            else {
+                $(this).removeClass('input-error');
+            }
+        });
+
+        // fields validation
+        if( next_step ) {
+            parent_fieldset.fadeOut(400, function() {
+                // change icons
+                current_active_step.removeClass('active').addClass('activated').next().addClass('active');
+                // progress bar
+                bar_progress(progress_line, 'right');
+                // show next step
+                $(this).next().fadeIn();
+                // scroll window to beginning of the form
+                scroll_to_class( $('.f1'), 20 );
+            });
+        }
+    });
+
+
     // previous step
     $('.f1 .btn-previous').on('click', function() {
         // navigation steps / progress steps
@@ -504,6 +675,11 @@ $(document).ready(function() {
     $('.f1 .btn-submit').on('click', function(e) {    // submit
         console.log('release commandControl');
         orderData = new buildOrder();
-        releaseOrder();
+        var dataSet = 
+        { 
+            releaseOrder: orderData.releaseOrder
+        };
+        putOrder(dataSet);
+        /*releaseOrder(); this directive created a file into a different library needs to be fixed and thus commented out*/ 
     });
 });

@@ -29,7 +29,6 @@
         <script type="text/javascript" src="assets/js/popper.min.js"></script>
         <!-- MDB core JavaScript -->
         <script type="text/javascript" src="assets/js/mdb.min.js"></script>
-        
     </head>
 
     <body>
@@ -50,11 +49,6 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="top-navbar-1">
                     <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <span class="li-text">
-                                Sergio F. Rodriguez
-                            </span> 
-                        </li>
                         <li>
                             <span class="li-text">
                                 Sergio F. Rodriguez
@@ -126,8 +120,26 @@
                             </div>
 
                             <fieldset>
+
                                 <div class="form-group md-form form-lg">
-                                    <h4>This step step will create an order id</h4>
+                                    <h4>Continue editing an Order (not released) </h4>
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Title</th>
+                                                <th scope="col">Subject</th>
+                                                <th scope="col"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="orderlist">
+                                            <!-- dynamic content-->
+                                        </tbody>
+                                    </table>        
+                                </div>
+
+                                <div class="form-group md-form form-lg">
+                                    <h4>Create a NEW order</h4>
                                     <button type="button" class="btn-block btn-next" id="initiateOrder">Click [HERE] to Start</button>
                                 </div>
                             </fieldset>
@@ -338,7 +350,7 @@
                                 <div class="form-group md-form form-lg">
                                     <h4>If the Order was completed. Click below to create the Order <i class="fa fa-file"></i> file to release.</h4>
                                      <button type="button" class="btn btn-previous">Previous</button>
-                                    <button type="button" class="btn btn-submit" id="release" value="1">Release</button>
+                                    <button type="button" class="btn btn-submit" id="release" value="1" data-toggle="modal" data-target="#exampleModal">Release</button>
                                 </div>
                             </fieldset>
                         
@@ -349,15 +361,30 @@
             </div>
         </div>
 
-
+        <!-- modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        A NightOrder Was Created. You can can close the window.
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-block btn-next" id="initiateOrder" data-dismiss="modal">Close</button>
+                </div>
+                </div>
+            </div>
+        </div>
         <!-- Javascript -->
+
         <script src="assets/js/jquery-1.11.1.min.js"></script>
         <script src="assets/bootstrap/js/bootstrap.min.js"></script>
         <script src="assets/js/jquery.backstretch.min.js"></script>
         <script src="assets/js/retina-1.1.0.min.js"></script>
         <script src="assets/js/scripts.js"></script>
-        
-
+        <script type="text/javascript">
+            // Load all pending order
+            getOrder();
+        </script>
     </body>
 
 </html>

@@ -24,6 +24,8 @@ var elementArray =
         "SSD-check":['#SSD-paragraph'], 
         "AFSEA-check":['#AFSEA-paragraph']
     };
+var taskCoordinatingInstructionsMeg = "HELLO From Coordinating";
+var battleRythmMesg = "HELLO From battleRythm";
 
 /* needed for pnp library */    
 $pnp.setup({
@@ -33,6 +35,8 @@ $pnp.setup({
         }
     }
 });
+
+
 
 /* Create name with date for oder */
 var orderName = function(){
@@ -58,6 +62,7 @@ $('#initiateOrder').click(function(){
     var dataSet = {Title: orderName()};
     /* submit item to SPlist*/
     initiateOrder(dataSet);
+    
 });
 
 /* When click Initiate Order */
@@ -69,7 +74,7 @@ function initiateOrder(dataSet){
     .items.add(dataSet)
     .then(function (response) {
         orderId = response.data.Id;
-        console.log(orderId);
+        console.log("initiateOrder " + orderId);
     })
 }
 
@@ -79,7 +84,7 @@ function getOrder(){
     var web = new $pnp.Web(_spPageContextInfo.webAbsoluteUrl);
     // Using POST method to create an item as example
     web.getList(`${_spPageContextInfo.webServerRelativeUrl}/Lists/${orderList}`)
-    .items.select(  "ID", "Title", "generalSubject", "generalTitle")
+    .items.select(  "ID", "Title", "generalSubject", "generalTitle" )
     .filter("releaseOrder eq 0")
     .orderBy("Modified", true)
     .get()
@@ -91,70 +96,73 @@ function getOrder(){
 }
 
 function getOrderDetail(orderId){
+    console.log('getOrderDetail: '+ orderId);
      //INSIDE button click
     var web = new $pnp.Web(_spPageContextInfo.webAbsoluteUrl);
     // Using POST method to create an item as example
     web.getList(`${_spPageContextInfo.webServerRelativeUrl}/Lists/${orderList}`)
-    .items.select(  "ID",
-                    "Title",
-                    "generalSubject",
-                    "generalTitle",
-                    "generalReferenceField",   
-                    "taskStaffCg",         
-                    "taskOrganizationJSOACE",      
-                    "taskStaffJ1",         
-                    "taskOrganizationSFG10",       
-                    "taskOrganizationSOW352",      
-                    "taskOrganizationTASKFORCE10",         
-                    "taskStaffJ5",         
-                    "taskStaffJ6",         
-                    "taskStaffJ8",         
-                    "taskStaffJx",         
-                    "taskStaffMed",        
-                    "taskStaffOther",      
-                    "taskStaffPao",        
-                    "taskStaffSja",        
-                    "taskStaffSsd",        
-                    "releaseOrder",    
-                    "taskStaffJ4",         
-                    "taskOrganizationAll",         
-                    "taskOrganizationNSWU2",       
-                    "taskStaffHq", 
-                    "taskStaffJ2",         
-                    "taskStaffJ3",         
-                    "taskStaffAfSea",      
-                    "battleRythm",        
-                    "taskCoordinatingInstructions")
+    .items
+    .select(    "ID",
+                "Title",
+                "generalSubject",
+                "generalTitle",
+                "generalReferenceField",   
+                "taskStaffCg",         
+                "taskOrganizationJSOACE",      
+                "taskStaffJ1",         
+                "taskOrganizationSFG10",       
+                "taskOrganizationSOW352",      
+                "taskOrganizationTASKFORCE10",         
+                "taskStaffJ5",         
+                "taskStaffJ6",         
+                "taskStaffJ8",         
+                "taskStaffJx",         
+                "taskStaffMed",        
+                "taskStaffOther",      
+                "taskStaffPao",        
+                "taskStaffSja",        
+                "taskStaffSsd",        
+                "releaseOrder",    
+                "taskStaffJ4",         
+                "taskOrganizationAll",         
+                "taskOrganizationNSWU2",       
+                "taskStaffHq", 
+                "taskStaffJ2",         
+                "taskStaffJ3",         
+                "taskStaffAfSea",      
+                "battleRythm",        
+                "taskCoordinatingInstructions")
     .filter("ID eq "+orderId)
     .get()
-    .then(function (item){
+    .then(function(item){
+        console.log(item);
         $("#generalSubject").val(item[0].generalSubject);
         $("#generalTitle").val(item[0].generalTitle); 
         $("#referenceField").val(item[0].generalReferenceField);
-        $("taskOrganizationAll").val(item[0].taskOrganizationAll);          
-        $("taskOrganizationJSOACE").val(item[0].taskOrganizationJSOACE);     
-        $("taskOrganizationNSWU2").val(item[0].taskOrganizationNSWU2);     
-        $("taskOrganizationSFG10").val(item[0].taskOrganizationSFG10);     
-        $("taskOrganizationSOW352").val(item[0].taskOrganizationSOW352);     
-        $("taskOrganizationTASKFORCE10").val(item[0].taskOrganizationTASKFORCE10);
-        $("taskStaffCg").val(item[0].taskStaffCg);         
-        $("taskStaffHq").val(item[0].taskStaffHq);  
-        $("taskStaffJ1").val(item[0].taskStaffJ1);          
-        $("taskStaffJ2").val(item[0].taskStaffJ2);          
-        $("taskStaffJ3").val(item[0].taskStaffJ3);
-        $("taskStaffJ4").val(item[0].taskStaffJ4);          
-        $("taskStaffJ5").val(item[0].taskStaffJ5);        
-        $("taskStaffJ6").val(item[0].taskStaffJ6);        
-        $("taskStaffJ8").val(item[0].taskStaffJ8);         
-        $("taskStaffJx").val(item[0].taskStaffJx);          
-        $("taskStaffMed").val(item[0].taskStaffMed);         
-        $("taskStaffOther").val(item[0].taskStaffOther);       
-        $("taskStaffPao").val(item[0].taskStaffPao);         
-        $("taskStaffSja").val(item[0].taskStaffSja);         
-        $("taskStaffSsd").val(item[0].taskStaffSsd);                  
-        $("taskStaffAfSea").val(item[0].taskStaffAfSea);       
-        $("battleRythm").val(item[0].battleRythm);         
-        $("taskCoordinatingInstructions").val(item[0].taskCoordinatingInstructions); 
+        $("#taskOrganizationAll").val(item[0].taskOrganizationAll);          
+        $("#taskOrganizationJSOACE").val(item[0].taskOrganizationJSOACE);     
+        $("#taskOrganizationNSWU2").val(item[0].taskOrganizationNSWU2);     
+        $("#taskOrganizationSFG10").val(item[0].taskOrganizationSFG10);     
+        $("#taskOrganizationSOW352").val(item[0].taskOrganizationSOW352);     
+        $("#taskOrganizationTASKFORCE10").val(item[0].taskOrganizationTASKFORCE10);
+        $("#taskStaffCg").val(item[0].taskStaffCg);         
+        $("#taskStaffHq").val(item[0].taskStaffHq);  
+        $("#taskStaffJ1").val(item[0].taskStaffJ1);          
+        $("#taskStaffJ2").val(item[0].taskStaffJ2);          
+        $("#taskStaffJ3").val(item[0].taskStaffJ3);
+        $("#taskStaffJ4").val(item[0].taskStaffJ4);          
+        $("#taskStaffJ5").val(item[0].taskStaffJ5);        
+        $("#taskStaffJ6").val(item[0].taskStaffJ6);        
+        $("#taskStaffJ8").val(item[0].taskStaffJ8);         
+        $("#taskStaffJx").val(item[0].taskStaffJx);          
+        $("#taskStaffMed").val(item[0].taskStaffMed);         
+        $("#taskStaffOther").val(item[0].taskStaffOther);       
+        $("#taskStaffPao").val(item[0].taskStaffPao);         
+        $("#taskStaffSja").val(item[0].taskStaffSja);         
+        $("#taskStaffSsd").val(item[0].taskStaffSsd);                  
+        $("#taskStaffAfSea").val(item[0].taskStaffAfSea);
+        $("#battleRythm").val(item[0].battleRythm);         
+        $("#taskCoordinatingInstructions").val(item[0].taskCoordinatingInstructions); 
     });
 }
 
@@ -219,7 +227,7 @@ $('#generalOrder').click(function(){
     putOrder(dataSet);
 });
 
-$('#generalOrder-short').click(function(){
+$('#generalOrder-short, #generalSaveOrder').click(function(){
     console.log('generalOrder-short');
     orderData = new buildOrder();
     /* Create Data Set */
@@ -233,7 +241,7 @@ $('#generalOrder-short').click(function(){
     putOrder(dataSet);
 });
 
-$('#orderTask-short').click(function(){
+$('#orderTask-short, #orderSaveTask').click(function(){
     console.log('generalOrder-short');
     orderData = new buildOrder();
     /* Create Data Set */
@@ -269,7 +277,7 @@ $('#orderTask-short').click(function(){
     putOrder(dataSet);
 });
 
-$('#battleRythmOrder').click(function(){
+$('#battleRythmOrder, #battleRythmSaveOrder').click(function(){
     console.log('battleRythm');
     orderData = new buildOrder();
     /* Create Data Set */
@@ -324,7 +332,7 @@ $('#missionOrder').click(function(){
     putOrder(dataSet);
 });
 
-$('#executionOrder').click(function(){
+$('#executionOrder, #saveExecutionOrder').click(function(){
     console.log('situationOrder');
     orderData = new buildOrder();
     /* Create Data Set */
@@ -406,23 +414,12 @@ function putOrder(dataSet){
             console.log("response ",response.data);
     })
 }
+/* Pre-populate battleRythm coordinatingIstruction fields are empty */
+function prePopulate(){
+    $("#battleRythm").val(battleRythmMesg);
+    $("#taskCoordinatingInstructions").val(taskCoordinatingInstructionsMeg);
+}
 
-
-
-/* Once everyting is loaded: fix bug to display label on top and remove text overlaping */
-$(document).ready(function() {
-    
-    /* Hide input texts */
-    $.each(elementArray, function (index, value) {
-        $(value[0]).hide();
-    });
-
-    /* Make all  inputs and textarea active*/
-    var inputList = $(document).find('input, textarea');
-    $.each(inputList, function (index, value) {
-        $('#'+value.id).val() ? $('label[for='+value.id+']').addClass( "active" ): false;
-    });
-});
 
 /* Toggle input areas */
 $("[id$=check]").change(function(){
@@ -537,40 +534,22 @@ function bar_progress(progress_line_object, direction) {
     progress_line_object.attr('style', 'width: ' + new_value + '%;').data('now-value', new_value);
 }
 
-// review step
-$('body').on('click', '#reviewButton', function() {
-    console.log(this.value);
-    orderId = this.value;
-    // get all order details and laod to DOM
-    getOrderDetail(orderId);
-    
-    var parent_fieldset = $(this).parents('fieldset');
-    var next_step = true;
-    // navigation steps / progress steps
-    var current_active_step = $(this).parents('.f1').find('.f1-step.active');
-    var progress_line = $(this).parents('.f1').find('.f1-progress-line');
-    
-    // fields validation
-    if( next_step ) {
-        parent_fieldset.fadeOut(400, function() {
-            // change icons
-            current_active_step.removeClass('active').addClass('activated').next().addClass('active');
-            // progress bar
-            bar_progress(progress_line, 'right');
-            // show next step
-            $(this).next().fadeIn();
-            // scroll window to beginning of the form
-            scroll_to_class( $('.f1'), 20 );
-        });
-    }
-});
-
-
 $(document).ready(function() {
-
     // Fullscreen background 
     $.backstretch("assets/img/backgrounds/1.jpg");
     
+    // Hide input texts */
+    $.each(elementArray, function (index, value) {
+        $(value[0]).hide();
+    });
+    
+    // Make all  inputs and textarea active*/
+    var inputList = $(document).find('input, textarea');
+    $.each(inputList, function (index, value) {
+        $('#'+value.id).val() ? $('label[for='+value.id+']').addClass( "active" ): false;
+    });
+    
+    // Resize top nav
     $('#top-navbar-1').on('shown.bs.collapse', function(){
         $.backstretch("resize");
     });
@@ -580,30 +559,31 @@ $(document).ready(function() {
     
     // Form 
     $('.f1 fieldset:first').fadeIn('slow');
-    
-    $('.f1 input[type="text"], .f1 input[type="password"], .f1 textarea').on('focus', function() {
+    $('.f1 input[type="text"], .f1 textarea').on('focus', function() {
         $(this).removeClass('input-error');
     });
-    
     // Next step
     $('.f1 .btn-next').on('click', function() {
         var parent_fieldset = $(this).parents('fieldset');
         var next_step = true;
+        
         // navigation steps / progress steps
         var current_active_step = $(this).parents('.f1').find('.f1-step.active');
         var progress_line = $(this).parents('.f1').find('.f1-progress-line');
         
-        // fields validation
-        parent_fieldset.find('input[type="text"], input[type="password"], textarea').each(function() {
+        // Fields validation
+        parent_fieldset.find('input[type="text"], textarea').each(function() {
             if( $(this).val() == "" ) {
                 $(this).addClass('input-error');
-                next_step = false;
+                //next_step = false; // it was disabled, but feature will stop from going next if information is missing
+                next_step = true;
             }
             else {
                 $(this).removeClass('input-error');
             }
         });
-        // fields validation
+        
+        // Fields validation
         if( next_step ) {
             parent_fieldset.fadeOut(400, function() {
                 // change icons
@@ -618,42 +598,7 @@ $(document).ready(function() {
         }
     });
 
-    // Next step
-    $('.f1 .btn-next').on('click', function() {
-        var parent_fieldset = $(this).parents('fieldset');
-        var next_step = true;
-        // navigation steps / progress steps
-        var current_active_step = $(this).parents('.f1').find('.f1-step.active');
-        var progress_line = $(this).parents('.f1').find('.f1-progress-line');
-        
-        // fields validation
-        parent_fieldset.find('input[type="text"], input[type="password"], textarea').each(function() {
-            if( $(this).val() == "" ) {
-                $(this).addClass('input-error');
-                next_step = false;
-            }
-            else {
-                $(this).removeClass('input-error');
-            }
-        });
-
-        // fields validation
-        if( next_step ) {
-            parent_fieldset.fadeOut(400, function() {
-                // change icons
-                current_active_step.removeClass('active').addClass('activated').next().addClass('active');
-                // progress bar
-                bar_progress(progress_line, 'right');
-                // show next step
-                $(this).next().fadeIn();
-                // scroll window to beginning of the form
-                scroll_to_class( $('.f1'), 20 );
-            });
-        }
-    });
-
-
-    // previous step
+    // Previous step
     $('.f1 .btn-previous').on('click', function() {
         // navigation steps / progress steps
         var current_active_step = $(this).parents('.f1').find('.f1-step.active');
@@ -671,7 +616,7 @@ $(document).ready(function() {
         });
     });
 
-    // submit
+    // Submit
     $('.f1 .btn-submit').on('click', function(e) {    // submit
         console.log('release commandControl');
         orderData = new buildOrder();
@@ -681,5 +626,33 @@ $(document).ready(function() {
         };
         putOrder(dataSet);
         /*releaseOrder(); this directive created a file into a different library needs to be fixed and thus commented out*/ 
+    });
+
+    // review step
+    $('body').on('click', '#reviewButton', function() {
+        console.log(this.value);
+        orderId = this.value;
+        // get all order details and laod to DOM
+        getOrderDetail(orderId);
+
+        var parent_fieldset = $(this).parents('fieldset');
+        var next_step = true;
+        // navigation steps / progress steps
+        var current_active_step = $(this).parents('.f1').find('.f1-step.active');
+        var progress_line = $(this).parents('.f1').find('.f1-progress-line');
+        
+        // fields validation
+        if( next_step ) {
+            parent_fieldset.fadeOut(400, function() {
+                // change icons
+                current_active_step.removeClass('active').addClass('activated').next().addClass('active');
+                // progress bar
+                bar_progress(progress_line, 'right');
+                // show next step
+                $(this).next().fadeIn();
+                // scroll window to beginning of the form
+                scroll_to_class( $('.f1'), 20 );
+            });
+        }
     });
 });

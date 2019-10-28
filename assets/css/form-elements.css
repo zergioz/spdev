@@ -129,3 +129,7 @@ button.btn.btn-submit:active:focus, button.btn.btn-submit.active:focus { backgro
 button.btn.btn-previous,
 button.btn.btn-previous:focus,
 button.btn.btn-previous:active:focus, button.btn.btn-previous.active:focus { background: #bbb; }
+
+button.btn.btn-save,
+button.btn.btn-save:focus,
+button.btn.btn-save:active:focus, button.btn.btn-save.active:focus { background: #bbb; }

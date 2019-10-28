@@ -89,25 +89,25 @@
 
                                 <div class="f1-step">
                                     <div class="f1-step-icon">
-                                        <i class="fa fa-user"></i>
+                                        <i class="fa fa-info"></i>
                                     </div>
                                     <p>General</p>
                                 </div>
                                 <div class="f1-step">
                                     <div class="f1-step-icon">
-                                        <i class="fa fa-wrench"></i>
+                                        <i class="fa fa-list"></i>
                                     </div>
                                     <p>Tasks</p>
                                 </div>
                                 <div class="f1-step">
                                     <div class="f1-step-icon">
-                                        <i class="fa fa-wrench"></i>
+                                        <i class="fa fa-calendar"></i>
                                     </div>
                                     <p>BattleRhythm</p>
                                 </div>
                                 <div class="f1-step">
                                     <div class="f1-step-icon">
-                                        <i class="fa fa-lock"></i>
+                                        <i class="fa fa-bullhorn"></i>
                                     </div>
                                     <p>Coordinating</p>
                                 </div>
@@ -147,20 +147,21 @@
                             <fieldset>
                                 <h4>GENERAL INFORMATION:</h4>
                                 <div class="form-group md-form form-lg">
-                                    <label for="generalSubject">Subject</label>
+                                    <label for="generalSubject" class="active">Subject</label>
                                     <input type="text" name="generalSubject" class="form-control form-control-lg"  id="generalSubject">
                                </div>
                                <div class="form-group md-form form-lg">
-                                    <label for="generalTitle">Title</label>
+                                    <label for="generalTitle" class="active">Title</label>
                                     <input type="text" name="generalTitle" class="form-control form-control-lg"  id="generalTitle">
                                </div>
                                 <div class="form-group md-form form-lg">
-                                    <label for="referenceField">Reference</label>
+                                    <label for="referenceField" class="active">Reference</label>
                                     <textarea type="text" size="30" name="referenceField" class="form-control form-control-lg md-textarea" id="referenceField"></textarea>
                                 </div>
                                 <div class="f1-buttons">
-                                    <button type="button" class="btn btn-previous">Previous</button>
-                                    <button type="button" class="btn btn-next" id="generalOrder-short">Next</button>
+                                    <button type="button" class="btn btn-third btn-previous">Previous</button>
+                                    <button type="button" class="btn btn-third btn-save" id="generalSaveOrder" data-toggle="modal" data-target="#saveModal">Save</button>
+                                    <button type="button" class="btn btn-third btn-next" id="generalOrder-short">Next</button>
                                 </div>
                             </fieldset>
 
@@ -199,23 +200,23 @@
                                             </div>
                                                                                       
                                             <div class="form-group md-form form-lg" id="SFG10-paragraph">
-                                                <label for="SFG10">1st Battalion, 10th Special Forces Group (Airborne)</label>
+                                                <label for="SFG10" class="active">1st Battalion, 10th Special Forces Group (Airborne)</label>
                                                 <textarea name="SFG10" aria-label="With textarea" class="form-control form-control-lg md-textarea" id="SFG10"></textarea>
                                             </div>
                                             <div class="form-group md-form form-lg" id="NSWU2-paragraph">    
-                                                <label for="SFG10">Naval Special Warfare Unit TWO (NSWU-2)</label>
+                                                <label for="SFG10" class="active">Naval Special Warfare Unit TWO (NSWU-2)</label>
                                                 <textarea name="NSWU2" aria-label="With textarea" class="form-control form-control-lg md-textarea" id="NSWU2"></textarea>
                                             </div>
                                             <div class="form-group md-form form-lg" id="SOW352-paragraph">
-                                                <label for="SOW352">352nd Special Operations Wing</label>
+                                                <label for="SOW352" class="active">352nd Special Operations Wing</label>
                                                 <textarea name="SOW352" aria-label="With textarea" class="form-control form-control-lg md-textarea" id="SOW352"></textarea>
                                             </div>
                                             <div class="form-group md-form form-lg" id="JSOACE-paragraph">    
-                                                <label for="SFG10">Joint Special Operations Air Component – Europe (JSOAC-E)</label>
+                                                <label for="SFG10" class="active">Joint Special Operations Air Component – Europe (JSOAC-E)</label>
                                                 <textarea name="JSOACE" aria-label="With textarea" class="form-control form-control-lg md-textarea" id="JSOACE"></textarea>
                                             </div>
                                             <div class="form-group md-form form-lg" id="TASKFORCE10-paragraph">    
-                                                <label for="TASKFORCE10">Task Force 10</label>
+                                                <label for="TASKFORCE10" class="active">Task Force 10</label>
                                                 <textarea name="TASKFORCE10" aria-label="With textarea" class="form-control form-control-lg md-textarea" id="TASKFORCE10"></textarea>
                                             </div>
 
@@ -241,72 +242,72 @@
                                             </div>
                                             
                                             <div class="form-group md-form form-lg" id="CG-paragraph">
-                                                <label for="CG">Command Group</label>
+                                                <label for="CG" class="active">Command Group</label>
                                                 <textarea name="CG" aria-label="With textarea" class="form-control form-control-lg md-textarea" id="CG"></textarea>
                                             </div>
                                             <div class="form-group md-form form-lg" id="HQ-paragraph">
-                                                <label for="HQ">HQ Command</label>
+                                                <label for="HQ" class="active">HQ Command</label>
                                                 <textarea name="HQ" aria-label="With textarea" class="form-control form-control-lg md-textarea" id="HQ"></textarea>
                                             </div>
                                             <div class="form-group md-form form-lg" id="J1-paragraph">
-                                                <label for="TASKFORCE10">J1 Directorate</label>
+                                                <label for="TASKFORCE10" class="active">J1 Directorate</label>
                                                 <textarea name="J1" aria-label="With textarea" class="form-control form-control-lg md-textarea" id="J1"></textarea>
                                             </div>
                                             <div class="form-group md-form form-lg" id="J2-paragraph">
-                                                <label for="J2">J2 Directorate</label>
+                                                <label for="J2" class="active">J2 Directorate</label>
                                                 <textarea name="J2" aria-label="With textarea" class="form-control form-control-lg md-textarea" id="J2"></textarea>
                                             </div>
                                             <div class="form-group md-form form-lg" id="J3-paragraph">
-                                                <label for="J3">J3 Directorate</label>
+                                                <label for="J3" class="active">J3 Directorate</label>
                                                 <textarea name="J3" aria-label="With textarea" class="form-control form-control-lg md-textarea" id="J3"></textarea>
                                             </div>
                                             <div class="form-group md-form form-lg" id="J4-paragraph">
-                                                <label for="J4">J4 Directorate</label>
+                                                <label for="J4" class="active">J4 Directorate</label>
                                                 <textarea name="J4" aria-label="With textarea" class="form-control form-control-lg md-textarea" id="J4"></textarea>
                                             </div>
                                             <div class="form-group md-form form-lg" id="J5-paragraph">
-                                                <label for="J5">J5 Directorate</label>
+                                                <label for="J5" class="active">J5 Directorate</label>
                                                 <textarea name="J5" aria-label="With textarea" class="form-control form-control-lg md-textarea" id="J5"></textarea>
                                             </div>
                                             <div class="form-group md-form form-lg" id="J6-paragraph">
-                                                <label for="J6">J6 Directorate</label>
+                                                <label for="J6" class="active">J6 Directorate</label>
                                                 <textarea name="J6" aria-label="With textarea" class="form-control form-control-lg md-textarea" id="J6"></textarea>
                                             </div>
                                             <div class="form-group md-form form-lg" id="J8-paragraph">
-                                                <label for="J8">J8 Directorate</label>
+                                                <label for="J8" class="active">J8 Directorate</label>
                                                 <textarea name="J8" aria-label="With textarea" class="form-control form-control-lg md-textarea" id="J8"></textarea>
                                             </div>
                                             <div class="form-group md-form form-lg" id="JX-paragraph">
-                                                <label for="JX">JX Directorate</label>
+                                                <label for="JX" class="active">JX Directorate</label>
                                                 <textarea name="JX" aria-label="With textarea" class="form-control form-control-lg md-textarea" id="JX"></textarea>
                                             </div>
                                             <div class="form-group md-form form-lg" id="SSD-paragraph">
-                                                <label for="SSD">Signal Detachment</label>
+                                                <label for="SSD" class="active">Signal Detachment</label>
                                                 <textarea name="SSD" aria-label="With textarea" class="form-control form-control-lg md-textarea" id="SSD"></textarea>
                                             </div>
                                             <div class="form-group md-form form-lg" id="AFSEA-paragraph">
-                                                <label for="AFSEA">AF SEA</label>
+                                                <label for="AFSEA" class="active">AF SEA</label>
                                                 <textarea name="AFSEA" aria-label="With textarea" class="form-control form-control-lg md-textarea" id="AFSEA"></textarea>
                                             </div>
                                             <!-- START: SPECIALSTAFF -->
                                             <div id="SPECIALSTAFF-paragraph">
                                                 <div class="form-group md-form form-lg">
-                                                    <label for="SPECIALSTAFF-MED">Special Staff: MED</label>
+                                                    <label for="SPECIALSTAFF-MED" class="active">Special Staff: MED</label>
                                                     <textarea name="SpecialStaff-MED" aria-label="With textarea" class="form-control form-control-lg md-textarea" id="SPECIALSTAFF-MED"></textarea>
                                                 </div>
 
                                                 <div class="form-group md-form form-lg">
-                                                    <label for="SPECIALSTAFF-PAO">Special Staff: PAO</label>
+                                                    <label for="SPECIALSTAFF-PAO" class="active">Special Staff: PAO</label>
                                                     <textarea name="SpecialStaff-PAO" aria-label="With textarea" class="form-control form-control-lg md-textarea" id="SPECIALSTAFF-PAO"></textarea>
                                                 </div>
 
                                                 <div class="form-group md-form form-lg">
-                                                    <label for="SPECIALSTAFF-SJA">Special Staff: SJA</label>
+                                                    <label for="SPECIALSTAFF-SJA" class="active">Special Staff: SJA</label>
                                                     <textarea name="SpecialStaff-SJA" aria-label="With textarea" class="form-control form-control-lg md-textarea" id="SPECIALSTAFF-SJA"></textarea>
                                                 </div>
 
                                                 <div class="form-group md-form form-lg">
-                                                    <label for="SPECIALSTAFF-OTHER">Special Staff: OTHER</label>
+                                                    <label for="SPECIALSTAFF-OTHER" class="active">Special Staff: OTHER</label>
                                                     <textarea name="SpecialStaff-OTHER" aria-label="With textarea" class="form-control form-control-lg md-textarea" id="SPECIALSTAFF-OTHER"></textarea>
                                                 </div>
                                             </div>
@@ -315,8 +316,9 @@
                                     </div>
                                 </div>
                                 <div class="f1-buttons">
-                                    <button type="button" class="btn btn-previous">Previous</button>
-                                    <button type="button" class="btn btn-next" id="orderTask-short">Next</button>
+                                    <button type="button" class="btn btn-third btn-previous">Previous</button>
+                                    <button type="button" class="btn btn-third btn-save" id="orderSaveTask" data-toggle="modal" data-target="#saveModal">Save</button>
+                                    <button type="button" class="btn btn-third btn-next" id="orderTask-short">Next</button>
                                 </div>
                             </fieldset>
 
@@ -324,12 +326,13 @@
                                 <!-- Coordinating Instructions  -->
                                 <h4>Battle Rythm</h4>
                                 <div class="form-group md-form form-lg">
-                                    <label for="battleRythm">Provide Details</label>
+                                    <label for="battleRythm" class="active">Provide Details</label>
                                     <textarea name="battleRythm" aria-label="With textarea" class="form-control form-control-lg md-textarea" id="battleRythm"></textarea>
                                 </div>
                                 <div class="f1-buttons">
-                                    <button type="button" class="btn btn-previous">Previous</button>
-                                    <button type="button" class="btn btn-next" id="battleRythmOrder">Next</button>
+                                    <button type="button" class="btn btn-third btn-previous">Previous</button>
+                                    <button type="button" class="btn btn-third btn-save" id="battleRythmSaveOrder" data-toggle="modal" data-target="#saveModal">Save</button>
+                                    <button type="button" class="btn btn-third btn-next" id="battleRythmOrder">Next</button>
                                 </div>
                             </fieldset>
 
@@ -337,20 +340,21 @@
                                 <!-- Coordinating Instructions  -->
                                 <h4>COORDINATING INSTRUCTIONS:</h4>
                                 <div class="form-group md-form form-lg">
-                                    <label for="coordinatingInstructions">Provide Details</label>
-                                    <textarea name="coordinatingInstructions" aria-label="With textarea" class="form-control form-control-lg md-textarea" id="coordinatingInstructions"></textarea>
+                                    <label for="taskCoordinatingInstructions">Provide Details</label>
+                                    <textarea name="taskCoordinatingInstructions" aria-label="With textarea" class="form-control form-control-lg md-textarea" id="taskCoordinatingInstructions"></textarea>
                                 </div>
                                 <div class="f1-buttons">
-                                    <button type="button" class="btn btn-previous">Previous</button>
-                                    <button type="button" class="btn btn-next" id="executionOrder">Next</button>
+                                    <button type="button" class="btn btn-third btn-previous">Previous</button>
+                                    <button type="button" class="btn btn-third btn-save" id="saveExecutionOrder" data-toggle="modal" data-target="#saveModal">Save</button>
+                                    <button type="button" class="btn btn-third btn-next" id="executionOrder">Next</button>
                                 </div>
                             </fieldset>
 
                             <fieldset>
                                 <div class="form-group md-form form-lg">
                                     <h4>If the Order was completed. Click below to create the Order <i class="fa fa-file"></i> file to release.</h4>
-                                     <button type="button" class="btn btn-previous">Previous</button>
-                                    <button type="button" class="btn btn-submit" id="release" value="1" data-toggle="modal" data-target="#exampleModal">Release</button>
+                                    <button type="button" class="btn btn-previous">Previous</button>
+                                    <button type="button" class="btn btn-submit" id="release" value="1" data-toggle="modal" data-target="#releaseModal">Release</button>
                                 </div>
                             </fieldset>
                         
@@ -361,21 +365,36 @@
             </div>
         </div>
 
-        <!-- modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <!-- Release modal -->
+        <div class="modal fade" id="releaseModal" tabindex="-1" role="dialog" aria-labelledby="releaseModal" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-body">
-                        A NightOrder Was Created. You can can close the window.
+                        <h3>A NightOrder Was Created. You can can close the window.</h3>
                     </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-block btn-next" id="initiateOrder" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn-block btn-next" id="releaseModal" data-dismiss="modal">Close</button>
                 </div>
                 </div>
             </div>
         </div>
-        <!-- Javascript -->
 
+        <!-- Save modal -->
+        <div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="saveModal" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h3>The Order details were saved.</h3>
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-block btn-next" id="saveModal" data-dismiss="modal">Close</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Javascript -->
         <script src="assets/js/jquery-1.11.1.min.js"></script>
         <script src="assets/bootstrap/js/bootstrap.min.js"></script>
         <script src="assets/js/jquery.backstretch.min.js"></script>
